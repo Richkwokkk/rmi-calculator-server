@@ -1,3 +1,4 @@
+package src.main.java.RMI_Calculator;
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 

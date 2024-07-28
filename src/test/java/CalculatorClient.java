@@ -1,7 +1,10 @@
+package src.test.java;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import org.junit.Before;
 import org.junit.Test;
+
+import src.main.java.RMI_Calculator.Calculator;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
