@@ -1,4 +1,4 @@
-package src.main.java.RMI_Calculator;
+package RMI_Calculator;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Stack;
@@ -32,7 +32,7 @@ public class CalculatorImplementation extends UnicastRemoteObject implements Cal
      * @return the stack for the current client.
      */
     private Stack<Integer> getStack() {
-        String clientId = String.valueOf(Thread.currentThread().getId());
+        String clientId = String.valueOf(Thread.currentThread().threadId());
         clientStacks.putIfAbsent(clientId, new Stack<>());
         return clientStacks.get(clientId);
     }

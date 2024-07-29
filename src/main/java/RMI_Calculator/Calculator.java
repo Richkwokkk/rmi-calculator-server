@@ -1,4 +1,4 @@
-package src.main.java.RMI_Calculator;
+package RMI_Calculator;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
