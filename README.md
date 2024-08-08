@@ -9,7 +9,7 @@ The project consists of four main Java files:
 1. `src/main/java/RMI_Calculator/Calculator.java`: The remote interface that defines the operations supported by the calculator server.
 2. `src/main/java/RMI_Calculator/CalculatorImplementation.java`: The implementation of the Calculator interface.
 3. `src/main/java/RMI_Calculator/CalculatorServer.java`: The server class that sets up the RMI registry and binds the Calculator implementation.
-4. `src/test/CalculatorClient.java`: A test client that demonstrates the functionality of the calculator server.
+4. `src/test/java/CalculatorClient.java`: A test client that demonstrates the functionality of the calculator server.
 
 ## Functionality
 
