@@ -9,13 +9,20 @@ JFLAGS = -g
 
 # Source directories
 MAINSRCDIR = src/main/java/RMI_Calculator
-TESTSRCDIR = src/test
+TESTSRCDIR = src/test/java
 
 # Output directory for class files
 BINDIR = bin
 
 # RMI stub generator
 RMIC = rmic
+
+# JUnit JAR
+JUNIT_JAR = lib/junit-4.13.2.jar
+HAMCREST_JAR = lib/hamcrest-core-1.3.jar
+
+# Classpath
+CP = $(BINDIR):$(JUNIT_JAR):$(HAMCREST_JAR)
 
 # Source files
 MAINSOURCES = $(MAINSRCDIR)/Calculator.java \
@@ -29,7 +36,8 @@ MAINCLASSES = $(MAINSOURCES:%.java=$(BINDIR)/%.class)
 TESTCLASSES = $(TESTSOURCES:%.java=$(BINDIR)/%.class)
 
 # Default target
-all: $(BINDIR) $(MAINCLASSES) $(TESTCLASSES)
+all: $(BINDIR)
+	$(JC) $(JFLAGS) -cp $(CP) -d $(BINDIR) $(MAINSOURCES) src/test/java/*.java
 
 # Rule for making the bin directory
 $(BINDIR):
@@ -37,11 +45,11 @@ $(BINDIR):
 
 # Rule for compiling main .java files
 $(BINDIR)/%.class: %.java
-	$(JC) $(JFLAGS) -d $(BINDIR) $
+	$(JC) $(JFLAGS) -cp $(CP) -d $(BINDIR) $<
 
 # Rule for compiling test .java files
 $(BINDIR)/CalculatorClient.class: $(TESTSRCDIR)/CalculatorClient.java
-	$(JC) $(JFLAGS) -cp $(BINDIR) -d $(BINDIR) $
+	$(JC) $(JFLAGS) -cp $(CP) -d $(BINDIR) $<
 
 # Clean up
 clean:
@@ -49,11 +57,11 @@ clean:
 
 # Run the server
 run-server:
-	$(JR) -classpath $(BINDIR) RMI_Calculator.CalculatorServer
+	$(JR) -classpath $(CP) RMI_Calculator.CalculatorServer
 
 # Run the client
-run-client:
-	$(JR) -classpath $(BINDIR) CalculatorClient
+run-client: all
+	$(JR) -cp $(CP):$(BINDIR) org.junit.runner.JUnitCore CalculatorClient
 
 # Generate RMI stubs
 stubs: $(BINDIR)/RMI_Calculator/Calculator

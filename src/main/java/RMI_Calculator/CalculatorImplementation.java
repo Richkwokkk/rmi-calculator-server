@@ -32,7 +32,7 @@ public class CalculatorImplementation extends UnicastRemoteObject implements Cal
      * @return the stack for the current client.
      */
     private Stack<Integer> getStack() {
-        String clientId = String.valueOf(Thread.currentThread().threadId());
+        String clientId = String.valueOf(Thread.currentThread().getId());
         clientStacks.putIfAbsent(clientId, new Stack<>());
         return clientStacks.get(clientId);
     }
@@ -59,23 +59,25 @@ public class CalculatorImplementation extends UnicastRemoteObject implements Cal
     @Override
     public void pushOperation(String operator) throws RemoteException {
         Stack<Integer> stack = getStack();
-        if (stack.isEmpty()) {
-            throw new RemoteException("Stack is empty.");
+        if (stack.size() < 2) {
+            throw new RemoteException("Stack must contain at least two elements for operations.");
         }
 
+        int b = stack.pop();
+        int a = stack.pop();
         int result = 0;
         switch (operator) {
             case "min":
-                result = stack.stream().min(Integer::compare).orElseThrow();
+                result = Math.min(a, b);
                 break;
             case "max":
-                result = stack.stream().max(Integer::compare).orElseThrow();
+                result = Math.max(a, b);
                 break;
             case "lcm":
-                result = stack.stream().reduce(this::lcm).orElseThrow();
+                result = lcm(a, b);
                 break;
             case "gcd":
-                result = stack.stream().reduce(this::gcd).orElseThrow();
+                result = gcd(a, b);
                 break;
             default:
                 throw new RemoteException("Invalid operator: " + operator);

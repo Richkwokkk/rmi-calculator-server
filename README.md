@@ -6,10 +6,10 @@ This project implements a simple calculator server using Java RMI (Remote Method
 
 The project consists of four main Java files:
 
-1. `Calculator.java`: The remote interface that defines the operations supported by the calculator server.
-2. `CalculatorImplementation.java`: The implementation of the Calculator interface.
-3. `CalculatorServer.java`: The server class that sets up the RMI registry and binds the Calculator implementation.
-4. `CalculatorClient.java`: A test client that demonstrates the functionality of the calculator server.
+1. `src/main/java/RMI_Calculator/Calculator.java`: The remote interface that defines the operations supported by the calculator server.
+2. `src/main/java/RMI_Calculator/CalculatorImplementation.java`: The implementation of the Calculator interface.
+3. `src/main/java/RMI_Calculator/CalculatorServer.java`: The server class that sets up the RMI registry and binds the Calculator implementation.
+4. `src/test/CalculatorClient.java`: A test client that demonstrates the functionality of the calculator server.
 
 ## Functionality
 
@@ -51,7 +51,9 @@ The use of ConcurrentHashMap also provides thread-safety, making our implementat
 
 ## Running the Application
 
-To run the application:
+### Method 1: Manual Compilation and Execution
+
+To run the application manually:
 
 1. Compile all Java files.
 2. Start the RMI registry if needed.
@@ -59,3 +61,33 @@ To run the application:
 4. Run CalculatorClient.
 
 The client will perform a series of tests demonstrating the functionality of the calculator server in both single-client and multi-client scenarios.
+
+### Method 2: Using Makefile
+
+A Makefile is provided to simplify the compilation and execution process. To use the Makefile:
+
+1. Ensure you have `make` installed on your system.
+2. Open a terminal and navigate to the project root directory (where the Makefile is located).
+3. Use the following commands:
+
+   - To compile the project:
+     ```
+     make all
+     ```
+
+   - To run the server:
+     ```
+     make run-server
+     ```
+
+   - To run the client (in a separate terminal):
+     ```
+     make run-client
+     ```
+
+   - To clean the compiled files:
+     ```
+     make clean
+     ```
+
+Using the Makefile automates the compilation process and ensures that all files are compiled with the correct classpath and output directory settings.
