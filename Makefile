@@ -8,7 +8,7 @@ JR = java
 JFLAGS = -g
 
 # Source directory
-SRCDIR = .
+SRCDIR = src/main/java/RMI-Calculator
 
 # Output directory for class files
 BINDIR = bin
@@ -17,13 +17,13 @@ BINDIR = bin
 RMIC = rmic
 
 # Source files
-SOURCES = Calculator.java \
-          CalculatorImplementation.java \
-          CalculatorServer.java \
-          CalculatorClient.java
+SOURCES = $(SRCDIR)/Calculator.java \
+          $(SRCDIR)/CalculatorImplementation.java \
+          $(SRCDIR)/CalculatorServer.java \
+          $(SRCDIR)/CalculatorClient.java
 
 # Class files
-CLASSES = $(SOURCES:%.java=$(BINDIR)/%.class)
+CLASSES = $(SOURCES:$(SRCDIR)/%.java=$(BINDIR)/%.class)
 
 # Default target
 all: $(BINDIR) $(CLASSES)
@@ -33,7 +33,7 @@ $(BINDIR):
 	mkdir -p $(BINDIR)
 
 # Rule for compiling .java files
-$(BINDIR)/%.class: %.java
+$(BINDIR)/%.class: $(SRCDIR)/%.java
 	$(JC) $(JFLAGS) -d $(BINDIR) $
 
 # Clean up
