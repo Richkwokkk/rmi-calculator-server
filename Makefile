@@ -7,8 +7,9 @@ JR = java
 # Compiler flags
 JFLAGS = -g
 
-# Source directory
-SRCDIR = src/main/java/RMI-Calculator
+# Source directories
+MAINSRCDIR = src/main/java/RMI_Calculator
+TESTSRCDIR = src/test
 
 # Output directory for class files
 BINDIR = bin
@@ -17,24 +18,30 @@ BINDIR = bin
 RMIC = rmic
 
 # Source files
-SOURCES = $(SRCDIR)/Calculator.java \
-          $(SRCDIR)/CalculatorImplementation.java \
-          $(SRCDIR)/CalculatorServer.java \
-          $(SRCDIR)/CalculatorClient.java
+MAINSOURCES = $(MAINSRCDIR)/Calculator.java \
+              $(MAINSRCDIR)/CalculatorImplementation.java \
+              $(MAINSRCDIR)/CalculatorServer.java
+
+TESTSOURCES = $(TESTSRCDIR)/CalculatorClient.java
 
 # Class files
-CLASSES = $(SOURCES:$(SRCDIR)/%.java=$(BINDIR)/%.class)
+MAINCLASSES = $(MAINSOURCES:%.java=$(BINDIR)/%.class)
+TESTCLASSES = $(TESTSOURCES:%.java=$(BINDIR)/%.class)
 
 # Default target
-all: $(BINDIR) $(CLASSES)
+all: $(BINDIR) $(MAINCLASSES) $(TESTCLASSES)
 
 # Rule for making the bin directory
 $(BINDIR):
-	mkdir -p $(BINDIR)
+	mkdir -p $(BINDIR)/RMI_Calculator
 
-# Rule for compiling .java files
-$(BINDIR)/%.class: $(SRCDIR)/%.java
+# Rule for compiling main .java files
+$(BINDIR)/%.class: %.java
 	$(JC) $(JFLAGS) -d $(BINDIR) $
+
+# Rule for compiling test .java files
+$(BINDIR)/CalculatorClient.class: $(TESTSRCDIR)/CalculatorClient.java
+	$(JC) $(JFLAGS) -cp $(BINDIR) -d $(BINDIR) $
 
 # Clean up
 clean:
@@ -42,14 +49,11 @@ clean:
 
 # Run the server
 run-server:
-	$(JR) -classpath $(BINDIR) CalculatorServer
+	$(JR) -classpath $(BINDIR) RMI_Calculator.CalculatorServer
 
 # Run the client
 run-client:
 	$(JR) -classpath $(BINDIR) CalculatorClient
 
 # Generate RMI stubs
-stubs: $(BINDIR)/CalculatorImplementation.class
-	$(RMIC) -classpath $(BINDIR) -d $(BINDIR) CalculatorImplementation
-
-.PHONY: all clean run-server run-client stubs
+stubs: $(BINDIR)/RMI_Calculator/Calculator
